@@ -20,4 +20,8 @@ public class CatalogService {
 			catalogs.add(cat);
 		}
 	}
+	
+	public List<Catalog> getAllCatalogs(){
+		return catalogs;
+	}
 }
