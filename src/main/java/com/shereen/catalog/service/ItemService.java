@@ -12,13 +12,15 @@ import com.shereen.catalog.model.Item;
 @Service
 public class ItemService {
 
-	@Autowired
+	
 	private CatalogService catalogService;
 
 	private List<Item> items = new ArrayList<>();
 
-	public ItemService() {
+	@Autowired
+	public ItemService( CatalogService catalogService) {
 		super();
+		this.catalogService= catalogService;
 		initialize();
 	}
 
