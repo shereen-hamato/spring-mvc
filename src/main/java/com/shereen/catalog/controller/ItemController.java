@@ -17,7 +17,7 @@ public class ItemController {
 	
 	@GetMapping
 	public String getAllItems(Model model) {
-		model.addAttribute("items", itemService);
+		model.addAttribute("items", itemService.getAllItems());
 		return "item-list";
 	}
 	
