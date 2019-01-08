@@ -1,7 +1,9 @@
 package com.shereen.catalog.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +17,7 @@ public class ItemService {
 	
 	private CatalogService catalogService;
 
-	private List<Item> items = new ArrayList<>();
+	private Map<Long , List<Item>> items = new HashMap<>();
 
 	@Autowired
 	public ItemService( CatalogService catalogService) {
@@ -30,15 +32,17 @@ public class ItemService {
 	}
 
 	private void createItem(Catalog cata) {
+		List<Item> itemList = new ArrayList<>();
 		for (int i = 0; i < 4; i++) {
-			Item item = new Item(i, "item " + i, "description " + i, 1.1, "duration " + i + " month", cata.getId());
-			items.add(item);
+			Item item = new Item(i, "item " + i, "description: item for catalog " + cata.getId(), 1.1, "duration " + i + " month", cata.getId());
+			itemList.add(item);
 		}
+		items.put(cata.getId(), itemList);
 	}
 
-	public List<Item> getAllItems() {
+	public List<Item> getAllItems(long cataId) {
 		
-		return items;
+		return items.get(cataId);
 	}
 
 }

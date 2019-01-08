@@ -60,7 +60,7 @@
 		<th:block th:each="catalog : ${catalogs}" class="row">
 			<div class="col-sm-4 ">
 				<h3 class="catalog">
-					<b><a href="#" th:text="${catalog.name}"></a></b>
+					<b><a th:href="@{ ${catalog.id}}+ '/items'" th:text="${catalog.name}"></a></b>
 				</h3>
 				<p th:text="${catalog.description}"></p>
 				<div>
