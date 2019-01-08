@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.shereen.catalog.service.ItemService;
 
 @Controller
-@RequestMapping("/Items")
+@RequestMapping("/items")
 public class ItemController {
 	
 	@Autowired
