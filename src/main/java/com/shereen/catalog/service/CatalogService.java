@@ -15,7 +15,7 @@ public class CatalogService {
 	
 
 	static {
-		for (int i =0 ; i<= 10; i++) {
+		for (int i =1 ; i<= 10; i++) {
 			Catalog cat = new Catalog(i , "catalog "+i , "catalog "+i+" desc");
 			catalogs.add(cat);
 		}
