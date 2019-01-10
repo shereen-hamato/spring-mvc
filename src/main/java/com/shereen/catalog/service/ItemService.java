@@ -10,39 +10,24 @@ import org.springframework.stereotype.Service;
 
 import com.shereen.catalog.model.Catalog;
 import com.shereen.catalog.model.Item;
+import com.shereen.catalog.repository.ItemRepository;
 
 @Service
 public class ItemService {
 
+	@Autowired
+	ItemRepository itemRepo;
 	
 	private CatalogService catalogService;
 
-	private Map<Long , List<Item>> items = new HashMap<>();
-
-	@Autowired
 	public ItemService( CatalogService catalogService) {
-		super();
-		this.catalogService= catalogService;
-		initialize();
-	}
 
-	private void initialize() {
-		catalogService.getAllCatalogs().forEach(cata -> createItem(cata));
-
-	}
-
-	private void createItem(Catalog cata) {
-		List<Item> itemList = new ArrayList<>();
-		for (int i = 0; i < 4; i++) {
-			Item item = new Item(i, "item " + i, "description: item for catalog " + cata.getId(), 1.1, "duration " + i + " month", cata.getId());
-			itemList.add(item);
-		}
-		items.put(cata.getId(), itemList);
 	}
 
 	public List<Item> getAllItems(long cataId) {
-		
-		return items.get(cataId);
+		List<Item>items= new ArrayList<>();
+		itemRepo.findAllByCatalogId(cataId).forEach(item->items.add(item));
+		return items;
 	}
 
 }

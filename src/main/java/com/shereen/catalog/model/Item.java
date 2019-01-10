@@ -5,8 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="ITEM")
 public class Item {
 	
 	@Id
@@ -26,21 +28,21 @@ public class Item {
 	@Column(name="duration")
 	private String duration;
 	
-	@Column(name="CATALOG_ID")
-	private long catalog_id;
+	@Column(name="ITEM_CATALOG_ID")
+	private long catalogId;
 	
 	public Item() {
 		super();
 	}
 
-	public Item(long id, String name, String description, double price, String duration, long catalog_id) {
+	public Item(long id, String name, String description, double price, String duration, long catalogId) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.price = price;
 		this.duration = duration;
-		this.catalog_id = catalog_id;
+		this.catalogId = catalogId;
 	}
 
 	public long getId() {
@@ -83,12 +85,12 @@ public class Item {
 		this.duration = duration;
 	}
 
-	public long getCatalog_id() {
-		return catalog_id;
+	public long getCatalogId() {
+		return catalogId;
 	}
 
-	public void setCatalog_id(long catalog_id) {
-		this.catalog_id = catalog_id;
+	public void setCatalogId(long catalogId) {
+		this.catalogId = catalogId;
 	}
 	
 	

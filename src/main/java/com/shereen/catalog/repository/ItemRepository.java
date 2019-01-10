@@ -7,5 +7,7 @@ import com.shereen.catalog.model.Item;
 
 @Repository
 public interface ItemRepository extends CrudRepository<Item, Long> {
+	
+	public Iterable<Item> findAllByCatalogId(long catalogId);
 
 }
