@@ -22,14 +22,14 @@ public class ItemController {
 	
 	@GetMapping("{cataId}/items")
 	public String getAllItems(Model model, @PathVariable long cataId) {
-		model.addAttribute("items", itemService.getAllItems( cataId));
+		model.addAttribute("items", itemService.getAllItemsByCatalogId( cataId));
 		return "item-list";
 	}
 	
 	@GetMapping("{cataId}/items/JSON")
 	@ResponseBody()
 	public List<Item> getAllItemsJson(@PathVariable long cataId){
-		return itemService.getAllItems( cataId);
+		return itemService.getAllItemsByCatalogId( cataId);
 	}
 	
 

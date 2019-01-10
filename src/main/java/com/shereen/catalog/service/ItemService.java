@@ -17,17 +17,32 @@ public class ItemService {
 
 	@Autowired
 	ItemRepository itemRepo;
-	
-	private CatalogService catalogService;
 
-	public ItemService( CatalogService catalogService) {
+	public ItemService() {
 
 	}
 
-	public List<Item> getAllItems(long cataId) {
-		List<Item>items= new ArrayList<>();
-		itemRepo.findAllByCatalogId(cataId).forEach(item->items.add(item));
+	public List<Item> getAllItemsByCatalogId(long cataId) {
+		List<Item> items = new ArrayList<>();
+		itemRepo.findAllByCatalogId(cataId).forEach(item -> items.add(item));
 		return items;
+	}
+
+	public Item getItemBYID(long id) {
+		// TODO: handle the exception
+		return itemRepo.findById(id).get();
+	}
+
+	public Item addItem(Item item) {
+		return itemRepo.save(item);
+	}
+	
+	public Item updateItem(Item item) {
+		return itemRepo.save(item);
+	}
+	
+	public void deleteItem(long id) {
+		itemRepo.deleteById(id);
 	}
 
 }

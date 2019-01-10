@@ -18,8 +18,8 @@ public class ItemServiceTest {
 
 	@Test
 	public void testGetAllItems() {
-		assertEquals(ItemService.getAllItems(1).size(),4 );
-		assertNull(ItemService.getAllItems(0) );
+		assertEquals(ItemService.getAllItemsByCatalogId(1).size(),4 );
+		assertNull(ItemService.getAllItemsByCatalogId(0) );
 	}
 
 }
