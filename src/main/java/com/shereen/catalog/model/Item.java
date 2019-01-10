@@ -1,12 +1,32 @@
 package com.shereen.catalog.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Item {
 	
+	@Id
+	@Column(name="ID")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE)
 	private long id;
+	
+	@Column(name="NAME")
 	private String name;
+	
+	@Column(name= "DESCRIPTION")
 	private String description;
+	
+	@Column(name="PRICE")
 	private double price;
+	
+	@Column(name="duration")
 	private String duration;
+	
+	@Column(name="CATALOG_ID")
 	private long catalog_id;
 	
 	public Item() {
