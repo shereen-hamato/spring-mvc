@@ -12,7 +12,7 @@ public class Catalog {
 	
 	@Id
 	@Column(name="ID")
-	@GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 	
 	@Column(name="NAME")

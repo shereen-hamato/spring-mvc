@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -41,12 +42,17 @@ public class CatalogController {
 		model.addAttribute("catalog", cataService.getCatalogById(id));
 		return "catalog-view";
 	}
+	
+	@GetMapping("/new")
+	public String getAddCatalogForm() {
+		return "catalog-new";
+	}
 
-	@PostMapping()
-	public String addCatalog(@RequestBody Catalog cata, Model model) {
-		cataService.addCatalog(cata);
+	@PostMapping("/new")
+	public String addCatalog(@ModelAttribute Catalog catalog, Model model) {
+		cataService.addCatalog(catalog);
 		model.addAttribute("catalogs", cataService.getAllCatalogs());
-		return ("redirect:catalog-list");
+		return ("redirect:/catalogs");
 	}
 
 	@PutMapping()
