@@ -56,18 +56,23 @@
 	</nav>
 	<div class="container-fluid">
 		<h2 class="catalog-header">Catalogs</h2>
-
-		<th:block th:each="catalog : ${catalogs}" class="row">
-			<div class="col-sm-4 ">
-				<h3 class="catalog">
-					<b><a th:href="@{ ${catalog.id}}+ '/items'" th:text="${catalog.name}"></a></b>
-				</h3>
-				<p th:text="${catalog.description}"></p>
-				<div>
-					<hr>
-				</div>
+		<a href="/catalogs/new">
+			<button type="button" class="btn btn-outline-secondary">Create
+				New Catalog</button>
+		</a>
+	</div>
+	<th:block th:each="catalog : ${catalogs}" class="row">
+		<div class="col-sm-4 ">
+			<h3 class="catalog">
+				<b><a th:href="@{ ${catalog.id}}+ '/items'"
+					th:text="${catalog.name}"></a></b>
+			</h3>
+			<p th:text="${catalog.description}"></p>
+			<div>
+				<hr>
 			</div>
-		</th:block>
+		</div>
+	</th:block>
 	</div>
 </body>
 </html>
