@@ -65,9 +65,11 @@
 		<div class="col-sm-4 ">
 			<h3 class="catalog">
 				<b><a th:href="@{ ${catalog.id}}+ '/items'"
-					th:text="${catalog.name}"></a></b>
+					th:text="${catalog.name}" th:object="${catalog}"></a></b>
 			</h3>
 			<p th:text="${catalog.description}"></p>
+			<a th:href="'/catalogs/edit/'+ @{ ${catalog.id}}"> Edit</a>
+<!-- 			<a href="/catalogs/delete" th:object="${catalog}">  Delete</a> -->
 			<div>
 				<hr>
 			</div>
