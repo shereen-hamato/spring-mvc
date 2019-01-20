@@ -55,11 +55,20 @@ public class CatalogController {
 		return ("redirect:/catalogs");
 	}
 
-	@PutMapping()
-	public String editCatalog(@RequestBody Catalog cata, Model model) {
-		cataService.addCatalog(cata);
+	
+	@GetMapping("/edit/{id}")
+	public String getEditCatalogForm(Model model, @PathVariable Long id) {
+		model.addAttribute("catalog", cataService.getCatalogById(id));
+		return "catalog-edit";
+	}
+	@PostMapping("/edit")
+	public String editCatalog(@ModelAttribute Catalog catalog, Model model) {
+		System.out.println(catalog);
+		
+		
+		cataService.updateCatalg(catalog);
 		model.addAttribute("catalogs", cataService.getAllCatalogs());
-		return ("redirect:catalog-list");
+		return ("redirect:/catalogs");
 
 	}
 

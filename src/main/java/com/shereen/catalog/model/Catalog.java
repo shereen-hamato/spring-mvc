@@ -64,5 +64,11 @@ public class Catalog {
 	}
 
 
+	@Override
+	public String toString() {
+		return "Catalog [id=" + id + ", name=" + name + ", description=" + description + "]";
+	}
+
+
 
 }
