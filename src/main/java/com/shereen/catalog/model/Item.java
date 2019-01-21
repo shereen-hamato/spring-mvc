@@ -2,9 +2,12 @@ package com.shereen.catalog.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -28,14 +31,15 @@ public class Item {
 	@Column(name="duration")
 	private String duration;
 	
-	@Column(name="ITEM_CATALOG_ID")
-	private long catalogId;
+	@ManyToOne
+	@JoinColumn(name="ITEM_CATALOG_ID", nullable=false)
+	private Catalog catalogId;
 	
 	public Item() {
 		super();
 	}
 
-	public Item(long id, String name, String description, double price, String duration, long catalogId) {
+	public Item(long id, String name, String description, double price, String duration, Catalog catalogId) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -85,11 +89,11 @@ public class Item {
 		this.duration = duration;
 	}
 
-	public long getCatalogId() {
+	public Catalog getCatalogId() {
 		return catalogId;
 	}
 
-	public void setCatalogId(long catalogId) {
+	public void setCatalogId(Catalog catalogId) {
 		this.catalogId = catalogId;
 	}
 	
