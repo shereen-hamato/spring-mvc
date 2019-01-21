@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -38,7 +39,7 @@ public class ItemController {
 	}
 	
 	@GetMapping("/{id}")
-	public String getItemByGuid(@PathVariable Long id, Model model) {
+	public String getItemByGuid(@PathVariable Long id, Model model, @ModelAttribute Catalog catalog) {
 		model.addAttribute("item", itemService.getItemBYID(id));
 		return "item-view";
 	}
@@ -46,21 +47,21 @@ public class ItemController {
 	@PostMapping()
 	public String addItem(@RequestBody Item item, Model model) {
 		itemService.addItem(item);
-		model.addAttribute("items", itemService.getAllItemsByCatalogId(item.getCatalogId()));
+		model.addAttribute("items", itemService.getAllItemsByCatalogId(item.getCatalogId().getId()));
 		return ("redirect:item-list");
 	}
 
 	@PutMapping()
 	public String editItem(@RequestBody Item item, Model model) {
 		itemService.addItem(item);
-		model.addAttribute("items", itemService.getAllItemsByCatalogId(item.getCatalogId()));
+		model.addAttribute("items", itemService.getAllItemsByCatalogId(item.getCatalogId().getId()));
 		return ("redirect:item-list");
 
 	}
 
 	@DeleteMapping("/{id}")
 	public String deleteItem(@PathVariable Long id, Model model) {
-		long cataId= itemService.getItemBYID(id).getCatalogId();
+		long cataId= itemService.getItemBYID(id).getCatalogId().getId();
 		itemService.deleteItem(id);
 		model.addAttribute("items", itemService.getAllItemsByCatalogId(cataId));
 		return ("redirect:catalog-list");

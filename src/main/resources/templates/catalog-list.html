@@ -69,7 +69,7 @@
 			</h3>
 			<p th:text="${catalog.description}"></p>
 			<a th:href="'/catalogs/edit/'+ @{ ${catalog.id}}"> Edit</a>
-<!-- 			<a href="/catalogs/delete" th:object="${catalog}">  Delete</a> -->
+			<a th:href="'/catalogs/delete/'+ @{ ${catalog.id}}">  Delete</a> 
 			<div>
 				<hr>
 			</div>

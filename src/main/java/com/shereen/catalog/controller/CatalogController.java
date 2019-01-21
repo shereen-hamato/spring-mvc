@@ -63,20 +63,23 @@ public class CatalogController {
 	}
 	@PostMapping("/edit")
 	public String editCatalog(@ModelAttribute Catalog catalog, Model model) {
-		System.out.println(catalog);
-		
-		
 		cataService.updateCatalg(catalog);
 		model.addAttribute("catalogs", cataService.getAllCatalogs());
 		return ("redirect:/catalogs");
 
 	}
 
-	@DeleteMapping("/{id}")
+	@GetMapping("/delete/{id}")
+	public String getdeleteCatalogForm(Model model, @PathVariable Long id) {
+		model.addAttribute("catalog", cataService.getCatalogById(id));
+		return "catalog-delete";
+	}
+	
+	@PostMapping("/delete/{id}")
 	public String deleteCatalog(@PathVariable Long id, Model model) {
 		cataService.deleteCatalog(id);
 		model.addAttribute("catalogs", cataService.getAllCatalogs());
-		return ("redirect:catalog-list");
+		return ("redirect:/catalogs");
 
 	}
 
