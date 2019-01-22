@@ -51,15 +51,19 @@ public class ItemController {
 	}
 
 	@GetMapping("/new")
-	public String getItemForm() {
+	public String getItemForm(@PathVariable Long cataId,Model model) {
+		model.addAttribute("catalog", catalogService.getCatalogById(cataId));
 		return "item-new";
 	}
 	
-	@PostMapping()
-	public String addItem(@RequestBody Item item, Model model) {
+	@PostMapping("/new")
+	public String addItem(@ModelAttribute Item item,@PathVariable Long cataId, Model model) {
+		System.out.println(item);
+		item.setCatalog(catalogService.getCatalogById(cataId));
 		itemService.addItem(item);
+		
 		model.addAttribute("items", itemService.getAllItemsByCatalog(item.getCatalog()));
-		return ("redirect:item-list");
+		return ("redirect:/{cataId}/items");
 	}
 
 	@PutMapping()

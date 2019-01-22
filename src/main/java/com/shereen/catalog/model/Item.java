@@ -96,6 +96,12 @@ public class Item {
 	public void setCatalog(Catalog catalog) {
 		this.catalog = catalog;
 	}
+
+	@Override
+	public String toString() {
+		return "Item [id=" + id + ", name=" + name + ", description=" + description + ", price=" + price + ", duration="
+				+ duration + ", catalog=" + catalog + "]";
+	}
 	
 	
 
