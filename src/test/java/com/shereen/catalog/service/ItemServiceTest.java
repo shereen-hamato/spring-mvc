@@ -9,17 +9,21 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.shereen.catalog.model.Catalog;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.NONE)
 public class ItemServiceTest {
 
 	@Autowired
 	ItemService ItemService;
+	
+	@Autowired
+	CatalogService  catalogService;
 
 	@Test
 	public void testGetAllItems() {
-		assertEquals(ItemService.getAllItemsByCatalogId(1).size(),4 );
-		assertNull(ItemService.getAllItemsByCatalogId(0) );
+		assertEquals(ItemService.getAllItemsByCatalog(catalogService.getCatalogById(1)).size(),2 );
 	}
 
 }

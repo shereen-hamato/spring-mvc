@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.shereen.catalog.model.Catalog;
 import com.shereen.catalog.model.Item;
+import com.shereen.catalog.service.CatalogService;
 import com.shereen.catalog.service.ItemService;
 
 @Controller
@@ -26,16 +27,21 @@ public class ItemController {
 	@Autowired
 	ItemService itemService;
 	
+	@Autowired
+	CatalogService catalogService;
+	
 	@GetMapping()
 	public String getAllItems(Model model, @PathVariable long cataId) {
-		model.addAttribute("items", itemService.getAllItemsByCatalogId( cataId));
+		Catalog  cata = catalogService.getCatalogById(cataId);
+		model.addAttribute("items", itemService.getAllItemsByCatalog( cata));
 		return "item-list";
 	}
 	
 	@GetMapping("/JSON")
 	@ResponseBody()
 	public List<Item> getAllItemsJson(@PathVariable long cataId){
-		return itemService.getAllItemsByCatalogId( cataId);
+		Catalog  cata = catalogService.getCatalogById(cataId);
+		return itemService.getAllItemsByCatalog( cata);
 	}
 	
 	@GetMapping("/{id}")
@@ -47,23 +53,23 @@ public class ItemController {
 	@PostMapping()
 	public String addItem(@RequestBody Item item, Model model) {
 		itemService.addItem(item);
-		model.addAttribute("items", itemService.getAllItemsByCatalogId(item.getCatalogId().getId()));
+		model.addAttribute("items", itemService.getAllItemsByCatalog(item.getCatalog()));
 		return ("redirect:item-list");
 	}
 
 	@PutMapping()
 	public String editItem(@RequestBody Item item, Model model) {
 		itemService.addItem(item);
-		model.addAttribute("items", itemService.getAllItemsByCatalogId(item.getCatalogId().getId()));
+		model.addAttribute("items", itemService.getAllItemsByCatalog(item.getCatalog()));
 		return ("redirect:item-list");
 
 	}
 
 	@DeleteMapping("/{id}")
 	public String deleteItem(@PathVariable Long id, Model model) {
-		long cataId= itemService.getItemBYID(id).getCatalogId().getId();
+		Catalog cataId= itemService.getItemBYID(id).getCatalog();
 		itemService.deleteItem(id);
-		model.addAttribute("items", itemService.getAllItemsByCatalogId(cataId));
+		model.addAttribute("items", itemService.getAllItemsByCatalog(cataId));
 		return ("redirect:catalog-list");
 
 	}

@@ -33,20 +33,20 @@ public class Item {
 	
 	@ManyToOne
 	@JoinColumn(name="ITEM_CATALOG_ID", nullable=false)
-	private Catalog catalogId;
+	private Catalog catalog;
 	
 	public Item() {
 		super();
 	}
 
-	public Item(long id, String name, String description, double price, String duration, Catalog catalogId) {
+	public Item(long id, String name, String description, double price, String duration, Catalog catalog) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.price = price;
 		this.duration = duration;
-		this.catalogId = catalogId;
+		this.catalog = catalog;
 	}
 
 	public long getId() {
@@ -89,12 +89,12 @@ public class Item {
 		this.duration = duration;
 	}
 
-	public Catalog getCatalogId() {
-		return catalogId;
+	public Catalog getCatalog() {
+		return catalog;
 	}
 
-	public void setCatalogId(Catalog catalogId) {
-		this.catalogId = catalogId;
+	public void setCatalog(Catalog catalog) {
+		this.catalog = catalog;
 	}
 	
 	

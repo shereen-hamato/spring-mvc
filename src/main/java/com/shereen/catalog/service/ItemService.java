@@ -22,9 +22,9 @@ public class ItemService {
 
 	}
 
-	public List<Item> getAllItemsByCatalogId(long cataId) {
+	public List<Item> getAllItemsByCatalog(Catalog cata) {
 		List<Item> items = new ArrayList<>();
-		itemRepo.findAllByCatalogId(cataId).forEach(item -> items.add(item));
+		itemRepo.findAllByCatalog(cata).forEach(item -> items.add(item));
 		return items;
 	}
 
