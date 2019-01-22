@@ -50,6 +50,11 @@ public class ItemController {
 		return "item-view";
 	}
 
+	@GetMapping("/new")
+	public String getItemForm() {
+		return "item-new";
+	}
+	
 	@PostMapping()
 	public String addItem(@RequestBody Item item, Model model) {
 		itemService.addItem(item);
