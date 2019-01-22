@@ -56,7 +56,11 @@
 	</nav>
 	<div class="container-fluid">
 		<h2 class="catalog-header">Items</h2>
-
+		<a th:href="@{items/new}">
+			<button type="button" class="btn btn-outline-secondary">Create
+				New Item</button>
+		</a>
+ 	</div>
 		<th:block th:each="item : ${items}" class="row">
 			<div class="col-sm-4 ">
 				<h3 class="catalog">
@@ -68,6 +72,6 @@
 				</div>
 			</div>
 		</th:block>
-	</div>
+	
 </body>
 </html>
