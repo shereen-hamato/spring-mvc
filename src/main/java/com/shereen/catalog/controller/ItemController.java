@@ -74,11 +74,12 @@ public class ItemController {
 	}
 	
 	
-	@PutMapping()
-	public String editItem(@RequestBody Item item, Model model) {
-		itemService.addItem(item);
+	@PostMapping("/edit/{id}")
+	public String editItem(@PathVariable Long cataId, @PathVariable Long id, @ModelAttribute Item item, Model model) {
+		item.setCatalog(catalogService.getCatalogById(cataId));
+		itemService.updateItem(item);
 		model.addAttribute("items", itemService.getAllItemsByCatalog(item.getCatalog()));
-		return ("redirect:item-list");
+		return ("redirect:/{cataId}/items");
 
 	}
 
