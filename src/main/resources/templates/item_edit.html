@@ -42,26 +42,33 @@
 
 <body>
 	<nav class="navbar navbar-inverse">
-		<div class="container-fluid navbar-header">
-			<a class="navbar-brand" href="/catalogs">Home</a>
-
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/catalogs">Home</a>
+			</div>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a>{{user}}</a></li>
+				<li><a href="#"><span class="glyphicon glyphicon-log-in"></span>
+						Logout</a></li>
+			</ul>
 		</div>
 	</nav>
 	<div class="container-fluid">
-		<h2 class="catalog-header">Create new Item</h2>
+		<h2 class="catalog-header">Edit item</h2>
 		<div class="col-sm-6 ">
-			<form action="#" th:action="@{new}" th:object="${item}"
+			<form action="#" th:action="@{edit}" th:object="${item}"
 				method="POST">
 				<div class="form-group">
+					<input type="hidden" th:field="*{id}" /> 
 					<label>Name</label> 
-					<input type="text" name="name" class="form-control" required> 
+					<input type="text" name="name" class="form-control" required th:field="*{name}">
 					<label>Price</label> 
-					<input type="text" name="price" class="form-control" required> 
+					<input type="text" name="price" class="form-control" required th:field="*{price}"> 
 					<label>duration</label>
-					<input type="text" name="duration" class="form-control" required>
+					<input type="text" name="duration" class="form-control" required th:field="*{duration}">
 					<label>Description</label> 
-					<input type="text" name="description" class="form-control" required>
-				</div>
+					<input type="text" name="description" class="form-control"  th:field="*{description}"/>
+					</div>
 				<input type="submit" value="Submit">
 			</form>
 		</div>
