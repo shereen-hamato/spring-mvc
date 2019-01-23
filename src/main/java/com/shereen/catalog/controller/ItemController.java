@@ -66,6 +66,14 @@ public class ItemController {
 		return ("redirect:/{cataId}/items");
 	}
 
+	@GetMapping("/edit/{id}")
+	public String geteditItemForm( @PathVariable Long id, Model model) {
+		model.addAttribute("item", itemService.getItemBYID(id));
+		return ("item-edit");
+
+	}
+	
+	
 	@PutMapping()
 	public String editItem(@RequestBody Item item, Model model) {
 		itemService.addItem(item);
