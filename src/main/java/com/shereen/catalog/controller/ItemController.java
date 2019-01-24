@@ -90,12 +90,12 @@ public class ItemController {
 
 	}
 
-	@DeleteMapping("/{id}")
-	public String deleteItem(@PathVariable Long id, Model model) {
-		Catalog cataId= itemService.getItemBYID(id).getCatalog();
+	@PostMapping("/delete/{id}")
+	public String deleteItem(@PathVariable Long cataId, @PathVariable Long id, Model model) {
+		Catalog cata= catalogService.getCatalogById(cataId);
 		itemService.deleteItem(id);
-		model.addAttribute("items", itemService.getAllItemsByCatalog(cataId));
-		return ("redirect:catalog-list");
+		model.addAttribute("items", itemService.getAllItemsByCatalog(cata));
+		return ("redirect:/{cataId}/items");
 
 	}
 	
