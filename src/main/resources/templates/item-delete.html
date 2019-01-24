@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1" />
+<title>Shereen Portfolio</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style>
+/* Remove the navbar's default margin-bottom and rounded borders */
+.navbar {
+	margin-bottom: 0;
+	border-radius: 0;
+}
+
+.catalog {
+	background-color: rgba(56, 55, 55, 0.377);
+	padding: 1%;
+	font-family: Courier New, Courier, monospace;
+}
+
+.row {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.row>[class*='col-'] {
+	display: flex;
+	flex-direction: column;
+}
+</style>
+
+</head>
+
+<body>
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid navbar-header">	
+				<a class="navbar-brand" href="/catalogs">Home</a>
+		</div>
+	</nav>
+	<div class="container-fluid">
+		<h2 class="catalog-header">delete catalog</h2>
+		<div class="col-sm-6 ">
+			<form action="#" th:action="@{${item.id}}" th:object="${item}"
+				method="POST">
+				<div class="form-group">
+					<input type="hidden" th:field="*{id}" /> 
+					<label>Name</label> 
+					<input type="text" name="name" class="form-control" required th:field="*{name}">
+					<label>Price</label> 
+					<input type="text" name="price" class="form-control" required th:field="*{price}"> 
+					<label>duration</label>
+					<input type="text" name="duration" class="form-control" required th:field="*{duration}">
+					<label>Description</label> 
+					<input type="text" name="description" class="form-control"  th:field="*{description}"/>
+					</div>
+					 <input type="submit" value="Submit"/>
+			</form>
+		</div>
+	</div>
+</body>
+</html>
+
+
+
+
