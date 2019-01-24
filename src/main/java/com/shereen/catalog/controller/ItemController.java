@@ -82,6 +82,13 @@ public class ItemController {
 		return ("redirect:/{cataId}/items");
 
 	}
+	
+	@GetMapping("/delete/{id}")
+	public String getDeleteItemForm( @PathVariable Long id, Model model) {
+		model.addAttribute("item", itemService.getItemBYID(id));
+		return ("item-delete");
+
+	}
 
 	@DeleteMapping("/{id}")
 	public String deleteItem(@PathVariable Long id, Model model) {
