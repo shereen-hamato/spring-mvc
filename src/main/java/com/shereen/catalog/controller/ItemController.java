@@ -34,6 +34,7 @@ public class ItemController {
 	public String getAllItems(Model model, @PathVariable long cataId) {
 		Catalog  cata = catalogService.getCatalogById(cataId);
 		model.addAttribute("items", itemService.getAllItemsByCatalog( cata));
+		model.addAttribute("catalog", cata);
 		return "item-list";
 	}
 	
