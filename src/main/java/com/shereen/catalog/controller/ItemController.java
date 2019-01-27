@@ -46,8 +46,9 @@ public class ItemController {
 	}
 	
 	@GetMapping("/{id}")
-	public String getItemByGuid(@PathVariable Long id, Model model, @ModelAttribute Catalog catalog) {
+	public String getItemByGuid(@PathVariable Long id, Model model, @PathVariable Long cataId) {
 		model.addAttribute("item", itemService.getItemBYID(id));
+		model.addAttribute("catalog", itemService.getItemBYID(id).getCatalog());
 		return "item-view";
 	}
 
