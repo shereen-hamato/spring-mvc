@@ -27,8 +27,12 @@ public class ItemService {
 		itemRepo.findAllByCatalog(cata).forEach(item -> items.add(item));
 		return items;
 	}
+	
+	public Item getItemByItemIdAndCatalog(Long id, Catalog catalog) {
+		return itemRepo.findByIdAndCatalog(id, catalog);
+	}
 
-	public Item getItemBYID(long id) {
+	public Item getItemById(long id) {
 		// TODO: handle the exception
 		return itemRepo.findById(id).get();
 	}
