@@ -33,9 +33,8 @@ public class ItemService {
 		return itemRepo.findByIdAndCatalog(id, catalog);
 	}
 
-	public Item getItemById(long id) {
-		// TODO: handle the exception
-		return itemRepo.findById(id).get();
+	public Optional<Item> getItemById(long id) {
+		return itemRepo.findById(id);
 	}
 
 	public Item addItem(Item item) {
