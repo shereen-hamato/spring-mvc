@@ -80,8 +80,15 @@ public class ItemController {
 	}
 
 	@GetMapping("{cataId}/items/edit/{id}")
-	public String geteditItemForm(@PathVariable Long id, Model model) {
-		model.addAttribute("item", itemService.getItemById(id));
+	public String geteditItemForm( @PathVariable Long cataId, @PathVariable Long id, Model model) {
+		Optional<Catalog> catalog = catalogService.getCatalogById(cataId);
+		if (!catalog.isPresent())
+			throw new ResourceNotFoundException();
+		Optional<Item>item = itemService.getItemByItemIdAndCatalog(id, catalog.get());
+		if (!item.isPresent())
+			throw new ResourceNotFoundException();
+		
+		model.addAttribute("item", item.get());
 		return ("item-edit");
 
 	}
@@ -101,8 +108,14 @@ public class ItemController {
 	}
 
 	@GetMapping("{cataId}/items/delete/{id}")
-	public String getDeleteItemForm(@PathVariable Long id, Model model) {
-		model.addAttribute("item", itemService.getItemById(id));
+	public String getDeleteItemForm(@PathVariable Long cataId,@PathVariable Long id, Model model) {
+		Optional<Catalog> catalog = catalogService.getCatalogById(cataId);
+		if (!catalog.isPresent())
+			throw new ResourceNotFoundException();
+		Optional<Item>item = itemService.getItemByItemIdAndCatalog(id, catalog.get());
+		if (!item.isPresent())
+			throw new ResourceNotFoundException();
+		model.addAttribute("item", item.get());
 		return ("item-delete");
 
 	}
