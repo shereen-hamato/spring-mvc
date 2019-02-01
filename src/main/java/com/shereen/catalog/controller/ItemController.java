@@ -35,7 +35,7 @@ public class ItemController {
 		if (!cata.isPresent())
 			throw new ResourceNotFoundException();
 		model.addAttribute("items", itemService.getAllItemsByCatalog(cata.get()));
-		model.addAttribute("catalog", cata);
+		model.addAttribute("catalog", cata.get());
 		return "item-list";
 	}
 
@@ -57,7 +57,7 @@ public class ItemController {
 			throw new ResourceNotFoundException();
 
 		model.addAttribute("item", item.get());
-		model.addAttribute("catalog", catalog);
+		model.addAttribute("catalog", catalog.get());
 		return "item-view";
 	}
 
