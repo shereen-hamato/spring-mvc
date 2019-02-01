@@ -1,6 +1,7 @@
 package com.shereen.catalog.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.shereen.catalog.exception.ResourceNotFoundException;
 import com.shereen.catalog.model.Catalog;
 import com.shereen.catalog.model.Item;
 import com.shereen.catalog.service.CatalogService;
@@ -45,7 +47,11 @@ public class ItemController {
 	@GetMapping("{cataId}/items/{id}")
 	public String getItemByGuid(@PathVariable Long id, Model model, @PathVariable Long cataId) {
 		Catalog catalog = catalogService.getCatalogById(cataId);
-		model.addAttribute("item", itemService.getItemByItemIdAndCatalog(id, catalog));
+		Optional<Item> item = itemService.getItemByItemIdAndCatalog(id, catalog);
+		
+		if (!item.isPresent()) throw new ResourceNotFoundException();
+		
+		model.addAttribute("item", item.get() );
 		model.addAttribute("catalog", catalog);
 		return "item-view";
 	}
