@@ -2,6 +2,7 @@ package com.shereen.catalog.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,9 +24,8 @@ public class CatalogService {
 		return cats;
 	}
 
-	public Catalog getCatalogById(long id) {
-		// TODO: handle the null exception
-		return cataRepo.findById(id).get();
+	public Optional<Catalog> getCatalogById(long id) {
+		return cataRepo.findById(id);
 	}
 
 	public Catalog addCatalog(Catalog cata) {
