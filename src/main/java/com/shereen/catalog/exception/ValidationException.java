@@ -1,5 +1,8 @@
 package com.shereen.catalog.exception;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class ValidationException extends RuntimeException {
 
 	/**
