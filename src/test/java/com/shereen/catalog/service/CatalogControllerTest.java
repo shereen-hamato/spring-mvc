@@ -1,6 +1,8 @@
 package com.shereen.catalog.service;
 
-import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 import java.util.List;
 
@@ -10,9 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.ui.Model;
-
-import static org.hamcrest.CoreMatchers.*;
 
 import com.shereen.catalog.controller.CatalogController;
 import com.shereen.catalog.model.Catalog;
