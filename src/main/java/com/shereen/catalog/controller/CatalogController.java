@@ -1,6 +1,7 @@
 package com.shereen.catalog.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.shereen.catalog.exception.ResourceNotFoundException;
 import com.shereen.catalog.model.Catalog;
 import com.shereen.catalog.service.CatalogService;
 
@@ -36,6 +38,9 @@ public class CatalogController {
 
 	@GetMapping("/{id}")
 	public String getCatalogByGuid(@PathVariable Long id, Model model) {
+		Optional<Catalog> cata = cataService.getCatalogById(id);
+		if (!cata.isPresent())
+			throw new ResourceNotFoundException();
 		model.addAttribute("catalog", cataService.getCatalogById(id));
 		return "catalog-view";
 	}
@@ -55,6 +60,9 @@ public class CatalogController {
 	
 	@GetMapping("/edit/{id}")
 	public String getEditCatalogForm(Model model, @PathVariable Long id) {
+		Optional<Catalog> cata = cataService.getCatalogById(id);
+		if (!cata.isPresent())
+			throw new ResourceNotFoundException();
 		model.addAttribute("catalog", cataService.getCatalogById(id));
 		return "catalog-edit";
 	}
@@ -68,12 +76,18 @@ public class CatalogController {
 
 	@GetMapping("/delete/{id}")
 	public String getdeleteCatalogForm(Model model, @PathVariable Long id) {
-		model.addAttribute("catalog", cataService.getCatalogById(id));
+		Optional<Catalog> cata = cataService.getCatalogById(id);
+		if (!cata.isPresent())
+			throw new ResourceNotFoundException();
+		model.addAttribute("catalog", cataService.getCatalogById(id).get());
 		return "catalog-delete";
 	}
 	
 	@PostMapping("/delete/{id}")
 	public String deleteCatalog(@PathVariable Long id, Model model) {
+		Optional<Catalog> cata = cataService.getCatalogById(id);
+		if (!cata.isPresent())
+			throw new ResourceNotFoundException();
 		cataService.deleteCatalog(id);
 		model.addAttribute("catalogs", cataService.getAllCatalogs());
 		return ("redirect:/catalogs");
