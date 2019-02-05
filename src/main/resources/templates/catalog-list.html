@@ -25,6 +25,15 @@
 	font-family: Courier New, Courier, monospace;
 }
 
+.thumbnail {
+	margin: 1%;
+	width:22%;
+}
+
+.display-area {
+	padding-left:7%;
+}
+
 .row {
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -37,6 +46,8 @@
 	display: flex;
 	flex-direction: column;
 }
+
+
 </style>
 
 </head>
@@ -54,8 +65,10 @@
 				New Catalog</button>
 		</a>
 	</div>
+	<div class= "display-area">
 	<th:block th:each="catalog : ${catalogs}" class="row">
-		<div class="col-sm-4 ">
+		<div class="col-md-4  thumbnail">
+		<img th:src="@{${catalog.imagePath}}" width="300" height="100">
 			<h3 class="catalog">
 				<b><a th:href="@{ ${catalog.id}}+ '/items'"
 					th:text="${catalog.name}" th:object="${catalog}"></a></b>
