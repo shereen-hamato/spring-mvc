@@ -2,7 +2,6 @@ package com.shereen.catalog.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,8 +27,11 @@ public class Item {
 	@Column(name="PRICE")
 	private double price;
 	
-	@Column(name="duration")
+	@Column(name="DURATION")
 	private String duration;
+	
+	@Column(name="IMAGE_PATH")
+	private String image_path;
 	
 	@ManyToOne
 	@JoinColumn(name="ITEM_CATALOG_ID", nullable=false)
@@ -39,13 +41,14 @@ public class Item {
 		super();
 	}
 
-	public Item(long id, String name, String description, double price, String duration, Catalog catalog) {
+	public Item(long id, String name, String description, double price, String duration, String imagePath, Catalog catalog) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.price = price;
 		this.duration = duration;
+		this.image_path= imagePath;
 		this.catalog = catalog;
 	}
 
@@ -97,12 +100,21 @@ public class Item {
 		this.catalog = catalog;
 	}
 
+	public String getImage_path() {
+		return image_path;
+	}
+
+	public void setImage_path(String image_path) {
+		this.image_path = image_path;
+	}
+
 	@Override
 	public String toString() {
 		return "Item [id=" + id + ", name=" + name + ", description=" + description + ", price=" + price + ", duration="
-				+ duration + ", catalog=" + catalog + "]";
+				+ duration + ", image_path=" + image_path + ", catalog=" + catalog + "]";
 	}
-	
+
+
 	
 
 }
