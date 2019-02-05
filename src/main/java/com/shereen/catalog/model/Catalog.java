@@ -26,6 +26,9 @@ public class Catalog {
 	@Column(name="DESCRIPTION")
 	private String description;
 	
+	@Column(name="IMAGE_PATH")
+	private String imagePath;
+	
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="ITEM_CATALOG_ID")
 	private List<Item> items;
@@ -35,11 +38,12 @@ public class Catalog {
 	}
 	
 	
-	public Catalog(long id, String name, String description) {
+	public Catalog(long id, String name, String description, String imagePath) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
+		this.imagePath=imagePath;
 	}
 
 
@@ -84,10 +88,23 @@ public class Catalog {
 	}
 
 
+	public String getImagePath() {
+		return imagePath;
+	}
+
+
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
+	}
+
+
 	@Override
 	public String toString() {
-		return "Catalog [id=" + id + ", name=" + name + ", description=" + description + "]";
+		return "Catalog [id=" + id + ", name=" + name + ", description=" + description + ", imagePath=" + imagePath
+				+ ", items=" + items + "]";
 	}
+
+
 
 
 
