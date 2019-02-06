@@ -12,6 +12,6 @@ description VARCHAR (255),
 price DOUBLE ,
 duration VARCHAR (255),
 item_catalog_id int,
-image_path VARCHAR (255),
+image_path VARCHAR (500),
 foreign key (item_catalog_id) references ITEM_CATALOG(id)
 );
