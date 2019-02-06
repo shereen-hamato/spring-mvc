@@ -23,15 +23,32 @@
 	background-color: rgba(56, 55, 55, 0.377);
 	padding: 1%;
 	font-family: Courier New, Courier, monospace;
+	height:30px;
+    overflow:hidden;
 }
 
 .thumbnail {
 	margin: 1%;
 	width:22%;
+	height:350px;
 }
+
+img {
+  border: 1px solid #ddd; /* Gray border */
+  border-radius: 4px;  /* Rounded border */
+  padding: 5px; /* Some padding */
+  width: 100%; /* Set a small width */
+  height:10%;
+}
+
 
 .display-area {
 	padding-left:7%;
+	
+}
+.container-fluid{
+background: #2d2d30;
+    color: #bdbdbd;
 }
 
 .row {
@@ -47,6 +64,11 @@
 	flex-direction: column;
 }
 
+p {
+    height:40px;
+    line-height:20px; /* Height / no. of lines to display */
+    overflow:hidden;
+}
 
 </style>
 
@@ -59,28 +81,32 @@
 		</div>
 	</nav>
 	<div class="container-fluid">
-		<h2 class="catalog-header">Catalogs</h2>
+	<div class= "display-area">
+	<div>
+		<h1>Catalogs</h1>
 		<a href="/catalogs/new">
 			<button type="button" class="btn btn-outline-secondary">Create
 				New Catalog</button>
 		</a>
-	</div>
-	<div class= "display-area">
+		</div>
+	
 	<th:block th:each="catalog : ${catalogs}" class="row">
 		<div class="col-md-4  thumbnail">
-		<img th:src="@{${catalog.imagePath}}" width="300" height="100">
+		<img th:src="@{${catalog.imagePath}}" style="height:50% ">
 			<h3 class="catalog">
 				<b><a th:href="@{ ${catalog.id}}+ '/items'"
 					th:text="${catalog.name}" th:object="${catalog}"></a></b>
 			</h3>
-			<p th:text="${catalog.description}"></p>
-			<a th:href="'/catalogs/edit/'+ @{ ${catalog.id}}"> Edit</a>
-			<a th:href="'/catalogs/delete/'+ @{ ${catalog.id}}">  Delete</a> 
+			<p th:text="${catalog.description}" ></p>
+			<hr>
+			<a th:href="'/catalogs/edit/'+ @{ ${catalog.id}}" class=" btn">Edit</a>
+			<a th:href="'/catalogs/delete/'+ @{ ${catalog.id}}" class="btn">  Delete</a> 
 			<div>
-				<hr>
+				
 			</div>
 		</div>
 	</th:block>
+	</div>
 	</div>
 </body>
 </html>
