@@ -63,7 +63,7 @@ public class CatalogController {
 		Optional<Catalog> cata = cataService.getCatalogById(id);
 		if (!cata.isPresent())
 			throw new ResourceNotFoundException();
-		model.addAttribute("catalog", cataService.getCatalogById(id));
+		model.addAttribute("catalog", cataService.getCatalogById(id).get());
 		return "catalog-edit";
 	}
 	@PostMapping("/edit")
