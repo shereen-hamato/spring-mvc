@@ -1,5 +1,9 @@
 package com.shereen.catalog.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,11 +15,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.shereen.catalog.exception.ResourceNotFoundException;
 import com.shereen.catalog.model.Catalog;
 import com.shereen.catalog.service.CatalogService;
+import com.shereen.catalog.service.StorageService;
 
 @Controller
 @RequestMapping("/catalogs")
@@ -23,6 +30,9 @@ public class CatalogController {
 
 	@Autowired
 	private CatalogService cataService;
+	
+	@Autowired
+	private StorageService storageService;
 
 	@GetMapping
 	public String getCatalog(Model model) {
@@ -51,7 +61,11 @@ public class CatalogController {
 	}
 
 	@PostMapping("/new")
-	public String addCatalog(@ModelAttribute Catalog catalog, Model model) {
+	public String addCatalog(@RequestParam("file") MultipartFile file, @ModelAttribute Catalog catalog, Model model) throws IOException {
+		
+	
+        storageService.storeFile(file);
+        catalog.setImagePath("http://localhost:8080/files/"+file.getOriginalFilename());
 		cataService.addCatalog(catalog);
 		model.addAttribute("catalogs", cataService.getAllCatalogs());
 		return ("redirect:/catalogs");
@@ -93,5 +107,7 @@ public class CatalogController {
 		return ("redirect:/catalogs");
 
 	}
+	
+	
 
 }
