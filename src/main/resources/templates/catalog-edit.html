@@ -56,18 +56,22 @@
 		<h2 class="catalog-header">Edit catalog</h2>
 		<div class="col-sm-6 ">
 			<form action="#" th:action="@{/catalogs/edit}" th:object="${catalog}"
-				method="POST">
+				method="POST" enctype="multipart/form-data">
 				<div class="form-group">
-					<input type="hidden" th:field="*{id}" /> <input type="hidden"
-						th:field="*{imagePath}" /> <label>Name </label><input type="text"
+					<input type="hidden" th:field="*{id}" /> 
+					<input type="hidden" th:field="*{imagePath}" /> 
+					<label>Name </label><input type="text"
 						name="name" class="form-control" required th:field="*{name}">
 				</div>
 				<label>Description</label> <input type="text" name="description"
-					class="form-control" th:field="*{description}" /> <input
-					type="submit" value="Submit">
+					class="form-control" th:field="*{description}" /> 
+					
+					<input type='file' name="file" id="imgInp" /> 
+					<input type="submit" value="Submit">
 			</form>
 		</div>
-		<img class="rounded float-right col-md-4  thumbnail"
+		
+		<img  id="catalogImg" class="rounded float-right col-md-4  thumbnail"
 			th:src="@{${catalog.imagePath}}" />
 	</div>
 
@@ -75,6 +79,25 @@
 
 
 </body>
+
+<script type="text/javascript">
+function readURL(input) {
+
+	  if (input.files && input.files[0]) {
+	    var reader = new FileReader();
+
+	    reader.onload = function(e) {
+	      $('#catalogImg').attr('src', e.target.result);
+	    }
+
+	    reader.readAsDataURL(input.files[0]);
+	  }
+	}
+
+	$("#imgInp").change(function() {
+	  readURL(this);
+	});
+</script>
 </html>
 
 
