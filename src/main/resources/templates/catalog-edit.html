@@ -49,13 +49,13 @@
 <body>
 	<nav class="navbar navbar-inverse">
 		<div class="container-fluid navbar-header">
-			<a class="navbar-brand" href="/catalogs">Home</a>
+			<a class="navbar-brand" href="/catalogs?page=0">Home</a>
 		</div>
 	</nav>
 	<div class="container-fluid">
 		<h2 class="catalog-header">Edit catalog</h2>
 		<div class="col-sm-6 ">
-			<form action="#" th:action="@{/catalogs/edit}" th:object="${catalog}"
+			<form action="#" th:action="@{'/catalogs/edit?page='+${page}}" th:object="${catalog}"
 				method="POST" enctype="multipart/form-data">
 				<div class="form-group">
 					<input type="hidden" th:field="*{id}" /> 
@@ -69,10 +69,13 @@
 					<input type='file' name="file" id="imgInp" /> 
 					<input type="submit" value="Submit">
 			</form>
+			<p th:text="${page}" ></p>
 		</div>
 		
 		<img  id="catalogImg" class="rounded float-right col-md-4  thumbnail"
 			th:src="@{${catalog.imagePath}}" />
+			
+			
 	</div>
 
 
