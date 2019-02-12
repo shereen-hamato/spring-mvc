@@ -18,7 +18,7 @@ public class CatalogServiceTest {
 
 	@Test
 	public void testGetAllCatalogs() {
-		assertEquals(cataLogService.getAllCatalogs().size(), 10);
+		assertEquals(cataLogService.getAllCatalogs(1,10).size(), 10);
 	}
 
 }

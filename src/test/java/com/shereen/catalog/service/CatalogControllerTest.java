@@ -24,7 +24,7 @@ public class CatalogControllerTest {
 	
 	@Test
 	public void testGetCatalog() {
-		List<Catalog> outcome =  catalogController.getAllCatalogJson();
+		List<Catalog> outcome =  catalogController.getAllCatalogJson(10);
 		assertThat(outcome.size(), is(equalTo(10)));
 	}
 
