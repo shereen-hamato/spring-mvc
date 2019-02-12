@@ -80,9 +80,14 @@ public class CatalogController {
 		model.addAttribute("catalog", cataService.getCatalogById(id).get());
 		return "catalog-edit";
 	}
+
+	
 	@PostMapping("/edit")
-	public String editCatalog(@ModelAttribute Catalog catalog, Model model) {
-		cataService.updateCatalg(catalog);
+	public String editCatalog(@RequestParam("file") MultipartFile file,@ModelAttribute Catalog catalog, Model model) {
+		if(!file.getOriginalFilename().isEmpty()) {  
+		storageService.storeFile(file);
+	        catalog.setImagePath("http://localhost:8080/files/"+file.getOriginalFilename());
+	    }cataService.updateCatalg(catalog);
 		model.addAttribute("catalogs", cataService.getAllCatalogs());
 		return ("redirect:/catalogs");
 

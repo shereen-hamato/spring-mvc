@@ -18,7 +18,6 @@ public class StorageService {
 	private static String storagePath = System.getenv("catalog-storage-path");
 	
 	public boolean storeFile(MultipartFile file)  {
-		System.out.println(storagePath);
 	    
 		byte[] bytes;
 		try {
