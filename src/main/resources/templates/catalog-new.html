@@ -3,7 +3,7 @@
 <head>
 <meta charset="ISO-8859-1" />
 <title>Shereen Portfolio</title>
-<meta charset="utf-8"/>
+<meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -43,27 +43,45 @@
 <body>
 	<nav class="navbar navbar-inverse">
 		<div class="container-fluid navbar-header">
-				<a class="navbar-brand" href="/catalogs?page=0">Home</a>
+			<a class="navbar-brand" href="/catalogs?page=0">Home</a>
 		</div>
 	</nav>
-    <div class="container-fluid">
-    <h2 class ="catalog-header">
-        Create new catalog
-    </h2>
-    <div class="col-sm-6 ">
-            <form action="#" th:action="@{/catalogs/new}" th:object="${catalog}" method="POST" enctype="multipart/form-data">>
-                    <div class="form-group">
-            <label>Name</label>
-            <input type="text" name="name" class="form-control" required >
-            </div>
-            <label>Description</label>
-            <input type="text" name="description" class="form-control"  required/>
-            <input type="file" name="file" /><br/><br/>
-            
-            <input type="submit" value="Submit">
-        </form>
-        </div>
-    </div>
+	<div class="container-fluid">
+		<h2 class="catalog-header">Create new catalog</h2>
+		<div class="col-sm-6 ">
+			<form action="#" th:action="@{/catalogs/new}" th:object="${catalog}"
+				method="POST" enctype="multipart/form-data">
+				>
+				<div class="form-group">
+					<label>Name</label> <input type="text" name="name"
+						class="form-control" required>
+				</div>
+				<label>Description</label> <input type="text" name="description"
+					class="form-control" required /> <input type="file" name="file" id="imgInp" /><br />
+				<br /> <input type="submit" value="Submit">
+			</form>
+		</div>
+		<img  id="catalogImg" class="rounded float-right col-md-4  thumbnail"
+			src="http://profilepicturesdp.com/wp-content/uploads/2018/06/blank-profile-picture-4.png" />
+	</div>
+	<script type="text/javascript">
+		function readURL(input) {
+
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
+
+				reader.onload = function(e) {
+					$('#catalogImg').attr('src', e.target.result);
+				}
+
+				reader.readAsDataURL(input.files[0]);
+			}
+		}
+
+		$("#imgInp").change(function() {
+			readURL(this);
+		});
+	</script>
 </body>
 </html>
 
