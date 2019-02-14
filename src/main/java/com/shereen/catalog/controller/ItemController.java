@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.shereen.catalog.exception.ResourceNotFoundException;
@@ -28,24 +30,26 @@ public class ItemController {
 
 	@Autowired
 	CatalogService catalogService;
+	
+	private final Integer pageSize = 20;
 
 	@GetMapping("{cataId}/items")
-	public String getAllItems(Model model, @PathVariable long cataId) {
+	public String getAllItems(Model model, @PathVariable long cataId, @RequestParam("page") Integer page) {
 		Optional<Catalog> cata = catalogService.getCatalogById(cataId);
 		if (!cata.isPresent())
 			throw new ResourceNotFoundException();
-		model.addAttribute("items", itemService.getAllItemsByCatalog(cata.get()));
+		model.addAttribute("items", itemService.getAllItemsByCatalog(cata.get(), page, pageSize));
 		model.addAttribute("catalog", cata.get());
 		return "item-list";
 	}
 
 	@GetMapping("/JSON/{cataId}/items")
 	@ResponseBody()
-	public List<Item> getAllItemsJson(@PathVariable long cataId) {
+	public Page<Item> getAllItemsJson(@PathVariable long cataId, @RequestParam("page") Integer page) {
 		Optional<Catalog> cata = catalogService.getCatalogById(cataId);
 		if (!cata.isPresent())
 			throw new ResourceNotFoundException();
-		return itemService.getAllItemsByCatalog(cata.get());
+		return itemService.getAllItemsByCatalog(cata.get(), page, pageSize);
 	}
 
 	@GetMapping("{cataId}/items/{id}")
@@ -75,7 +79,7 @@ public class ItemController {
 		item.setCatalog(catalog.get());
 		itemService.addItem(item);
 
-		model.addAttribute("items", itemService.getAllItemsByCatalog(item.getCatalog()));
+		model.addAttribute("items", itemService.getAllItemsByCatalog(item.getCatalog(), 0, pageSize));
 		return ("redirect:/{cataId}/items");
 	}
 
@@ -94,7 +98,7 @@ public class ItemController {
 	}
 
 	@PostMapping("{cataId}/items/edit/{id}")
-	public String editItem(@PathVariable Long cataId, @PathVariable Long id, @ModelAttribute Item item, Model model) {
+	public String editItem(@PathVariable Long cataId, @PathVariable Long id,@RequestParam("page") Integer page, @ModelAttribute Item item, Model model) {
 		if (!itemService.getItemById(id).isPresent())
 			throw new ResourceNotFoundException();
 		Optional<Catalog> catalog = catalogService.getCatalogById(cataId);
@@ -102,7 +106,7 @@ public class ItemController {
 			throw new ResourceNotFoundException();
 		item.setCatalog(catalog.get());
 		itemService.updateItem(item);
-		model.addAttribute("items", itemService.getAllItemsByCatalog(item.getCatalog()));
+		model.addAttribute("items", itemService.getAllItemsByCatalog(item.getCatalog(), page, pageSize));
 		return ("redirect:/{cataId}/items");
 
 	}
@@ -121,14 +125,14 @@ public class ItemController {
 	}
 
 	@PostMapping("{cataId}/items/delete/{id}")
-	public String deleteItem(@PathVariable Long cataId, @PathVariable Long id, Model model) {
+	public String deleteItem(@PathVariable Long cataId, @RequestParam("page") Integer page,@PathVariable Long id, Model model) {
 		if (!itemService.getItemById(id).isPresent())
 			throw new ResourceNotFoundException();
 		Optional<Catalog> catalog = catalogService.getCatalogById(cataId);
 		if (!catalog.isPresent())
 			throw new ResourceNotFoundException();
 		itemService.deleteItem(id);
-		model.addAttribute("items", itemService.getAllItemsByCatalog(catalog.get()));
+		model.addAttribute("items", itemService.getAllItemsByCatalog(catalog.get(), page, pageSize));
 		return ("redirect:/{cataId}/items");
 
 	}
