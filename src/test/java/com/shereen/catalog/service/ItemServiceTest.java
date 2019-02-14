@@ -21,7 +21,7 @@ public class ItemServiceTest {
 
 	@Test
 	public void testGetAllItems() {
-		assertEquals(ItemService.getAllItemsByCatalog(catalogService.getCatalogById(1).get()).size(),2 );
+		assertEquals(ItemService.getAllItemsByCatalog(catalogService.getCatalogById(1).get(), 0, 2).getSize(),2 );
 	}
 
 }

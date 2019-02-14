@@ -7,6 +7,9 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.shereen.catalog.model.Catalog;
@@ -23,9 +26,8 @@ public class ItemService {
 
 	}
 
-	public List<Item> getAllItemsByCatalog(Catalog cata) {
-		List<Item> items = new ArrayList<>();
-		itemRepo.findAllByCatalog(cata).forEach(item -> items.add(item));
+	public Page<Item> getAllItemsByCatalog(Catalog cata, Integer pageNum, Integer pageSize) {
+		Page<Item> items =itemRepo.findAllByCatalog(PageRequest.of(pageNum, pageSize, Sort.by(Sort.Direction.DESC, "id")),cata);
 		return items;
 	}
 	

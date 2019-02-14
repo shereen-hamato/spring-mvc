@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.data.domain.Page;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.shereen.catalog.controller.ItemController;
@@ -24,8 +25,8 @@ public class ItemControllerTest {
 	
 	@Test
 	public void testGetItems() {
-		List<Item> outcome =  itemController.getAllItemsJson(1);
-		assertThat(outcome.size(), is(equalTo(4)));
+		Page<Item> outcome =  itemController.getAllItemsJson(1, 1);
+		assertThat(outcome.getSize(), is(equalTo(4)));
 	}
 
 	
