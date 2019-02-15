@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shereen.catalog.exception.ResourceNotFoundException;
 import com.shereen.catalog.model.Catalog;
@@ -31,7 +32,7 @@ public class ItemController {
 	@Autowired
 	CatalogService catalogService;
 	
-	private final Integer pageSize = 20;
+	private final Integer pageSize = 2;
 
 	@GetMapping("{cataId}/items")
 	public String getAllItems(Model model, @PathVariable long cataId, @RequestParam("page") Integer page) {
@@ -112,7 +113,7 @@ public class ItemController {
 	}
 
 	@GetMapping("{cataId}/items/delete/{id}")
-	public String getDeleteItemForm(@PathVariable Long cataId,@PathVariable Long id, Model model) {
+	public String getDeleteItemForm(@PathVariable Long cataId,@PathVariable Long id,  @RequestParam Integer page,Model model) {
 		Optional<Catalog> catalog = catalogService.getCatalogById(cataId);
 		if (!catalog.isPresent())
 			throw new ResourceNotFoundException();
@@ -120,12 +121,13 @@ public class ItemController {
 		if (!item.isPresent())
 			throw new ResourceNotFoundException();
 		model.addAttribute("item", item.get());
+		model.addAttribute("page", page);
 		return ("item-delete");
 
 	}
 
 	@PostMapping("{cataId}/items/delete/{id}")
-	public String deleteItem(@PathVariable Long cataId, @RequestParam("page") Integer page,@PathVariable Long id, Model model) {
+	public String deleteItem(@PathVariable Long cataId, @RequestParam("page") Integer page,@PathVariable Long id, Model model,  RedirectAttributes redirectAttributes) {
 		if (!itemService.getItemById(id).isPresent())
 			throw new ResourceNotFoundException();
 		Optional<Catalog> catalog = catalogService.getCatalogById(cataId);
@@ -133,6 +135,7 @@ public class ItemController {
 			throw new ResourceNotFoundException();
 		itemService.deleteItem(id);
 		model.addAttribute("items", itemService.getAllItemsByCatalog(catalog.get(), page, pageSize));
+		redirectAttributes.addAttribute("page", page);
 		return ("redirect:/{cataId}/items");
 
 	}

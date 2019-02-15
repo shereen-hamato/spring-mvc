@@ -61,7 +61,7 @@
 				</h3>
 				<p th:text="${item.description}"  ></p><p th:text="${item.price} "></p> <p th:text="${item.duration}"></p>
 				<a th:href="'items/edit/'+ @{ ${item.id}}"> Edit</a>
-				<a th:href="'items/delete/'+ @{ ${item.id}}">  Delete</a> 
+				<a th:href="'items/delete/'+ @{ ${item.id}}+'?page='+@{ ${items.pageable.pageNumber}}">  Delete</a> 
 				<div>
 					<hr>
 				</div>

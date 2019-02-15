@@ -94,7 +94,7 @@ p {
 		<div class="col-md-4  thumbnail">
 		<img th:src="@{${catalog.imagePath}}" style="height:50% ">
 			<h3 class="catalog">
-				<b><a th:href="@{ ${catalog.id}}+ '/items'"
+				<b><a th:href="@{ ${catalog.id}}+ '/items?page=0'"
 					th:text="${catalog.name}" th:object="${catalog}"></a></b>
 			</h3>
 			<p th:text="${catalog.description}" ></p>
