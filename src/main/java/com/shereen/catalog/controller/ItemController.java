@@ -85,7 +85,7 @@ public class ItemController {
 	}
 
 	@GetMapping("{cataId}/items/edit/{id}")
-	public String geteditItemForm( @PathVariable Long cataId, @PathVariable Long id, Model model) {
+	public String geteditItemForm( @PathVariable Long cataId, @PathVariable Long id, @RequestParam("page") Integer page, Model model) {
 		Optional<Catalog> catalog = catalogService.getCatalogById(cataId);
 		if (!catalog.isPresent())
 			throw new ResourceNotFoundException();
@@ -94,12 +94,13 @@ public class ItemController {
 			throw new ResourceNotFoundException();
 		
 		model.addAttribute("item", item.get());
+		model.addAttribute("page",page);
 		return ("item-edit");
 
 	}
 
 	@PostMapping("{cataId}/items/edit/{id}")
-	public String editItem(@PathVariable Long cataId, @PathVariable Long id,@RequestParam("page") Integer page, @ModelAttribute Item item, Model model) {
+	public String editItem(@PathVariable Long cataId, @PathVariable Long id,@RequestParam("page") Integer page, @ModelAttribute Item item,RedirectAttributes redirectAttributes, Model model) {
 		if (!itemService.getItemById(id).isPresent())
 			throw new ResourceNotFoundException();
 		Optional<Catalog> catalog = catalogService.getCatalogById(cataId);
@@ -108,6 +109,7 @@ public class ItemController {
 		item.setCatalog(catalog.get());
 		itemService.updateItem(item);
 		model.addAttribute("items", itemService.getAllItemsByCatalog(item.getCatalog(), page, pageSize));
+		redirectAttributes.addAttribute("page", page);
 		return ("redirect:/{cataId}/items");
 
 	}
