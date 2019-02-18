@@ -81,7 +81,7 @@ public class ItemController {
 		itemService.addItem(item);
 
 		model.addAttribute("items", itemService.getAllItemsByCatalog(item.getCatalog(), 0, pageSize));
-		return ("redirect:/{cataId}/items");
+		return ("redirect:/{cataId}/items?page=0");
 	}
 
 	@GetMapping("{cataId}/items/edit/{id}")
