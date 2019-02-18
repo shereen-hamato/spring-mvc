@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shereen.catalog.exception.ResourceNotFoundException;
@@ -21,6 +22,7 @@ import com.shereen.catalog.model.Catalog;
 import com.shereen.catalog.model.Item;
 import com.shereen.catalog.service.CatalogService;
 import com.shereen.catalog.service.ItemService;
+import com.shereen.catalog.service.StorageService;
 
 @Controller
 @RequestMapping()
@@ -31,6 +33,9 @@ public class ItemController {
 
 	@Autowired
 	CatalogService catalogService;
+	
+	@Autowired
+	StorageService storageService;
 	
 	private final Integer pageSize = 21;
 
@@ -73,10 +78,12 @@ public class ItemController {
 	}
 
 	@PostMapping("{cataId}/items/new")
-	public String addItem(@ModelAttribute Item item, @PathVariable Long cataId, Model model) {
+	public String addItem(@ModelAttribute Item item, @PathVariable Long cataId, @RequestParam("file") MultipartFile file ,Model model) {
 		Optional<Catalog> catalog = catalogService.getCatalogById(cataId);
 		if (!catalog.isPresent())
 			throw new ResourceNotFoundException();
+		storageService.storeFile(file);
+        item.setImage_path("http://localhost:8080/files/"+file.getOriginalFilename());
 		item.setCatalog(catalog.get());
 		itemService.addItem(item);
 
