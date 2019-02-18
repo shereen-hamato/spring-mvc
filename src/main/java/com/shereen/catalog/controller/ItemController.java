@@ -32,7 +32,7 @@ public class ItemController {
 	@Autowired
 	CatalogService catalogService;
 	
-	private final Integer pageSize = 2;
+	private final Integer pageSize = 21;
 
 	@GetMapping("{cataId}/items")
 	public String getAllItems(Model model, @PathVariable long cataId, @RequestParam("page") Integer page) {

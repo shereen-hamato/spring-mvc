@@ -25,6 +25,20 @@
 	font-family: Courier New, Courier, monospace;
 }
 
+.thumbnail {
+	margin: 1%;
+	width:22%;
+	height:350px;
+}
+
+img {
+  border: 1px solid #ddd; /* Gray border */
+  border-radius: 4px;  /* Rounded border */
+  padding: 5px; /* Some padding */
+  width: 80%; /* Set a small width */
+  height:10%;
+}
+
 .row {
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -55,7 +69,8 @@
 		</a>
  	</div>
 		<th:block th:each="item : ${items}" class="row">
-			<div class="col-sm-4 ">
+			<div class="col-sm-4 thumbnail">
+			<img th:src="@{${item.image_path}}" style="height:50% ">
 				<h3 class="catalog">
 					<b><a th:href="@{'items/'+${item.id}}" th:text="${item.name}"></a></b>
 				</h3>
