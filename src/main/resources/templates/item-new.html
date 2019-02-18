@@ -50,7 +50,7 @@
 		<h2 class="catalog-header">Create new Item</h2>
 		<div class="col-sm-6 ">
 			<form action="#" th:action="@{new}" th:object="${item}"
-				method="POST">
+				method="POST" enctype="multipart/form-data">
 				<div class="form-group">
 					<label>Name</label> 
 					<input type="text" name="name" class="form-control" required> 
@@ -60,13 +60,35 @@
 					<input type="text" name="duration" class="form-control" required>
 					<label>Description</label> 
 					<input type="text" name="description" class="form-control" required>
+					<input type="file" name="file" id="imgInp" /><br />
 				</div>
 				<input type="submit" value="Submit">
 			</form>
 		</div>
+	<img  id="catalogImg" class="rounded float-right col-md-4  thumbnail"
+			src="https://via.placeholder.com/100/09f/fff.png" />
 	</div>
+	<script type="text/javascript">
+		function readURL(input) {
+
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
+
+				reader.onload = function(e) {
+					$('#catalogImg').attr('src', e.target.result);
+				}
+
+				reader.readAsDataURL(input.files[0]);
+			}
+		}
+
+		$("#imgInp").change(function() {
+			readURL(this);
+		});
+	</script>
 </body>
 </html>
+
 
 
 
