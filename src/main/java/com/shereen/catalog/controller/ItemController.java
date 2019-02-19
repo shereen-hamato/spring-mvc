@@ -107,12 +107,16 @@ public class ItemController {
 	}
 
 	@PostMapping("{cataId}/items/edit/{id}")
-	public String editItem(@PathVariable Long cataId, @PathVariable Long id,@RequestParam("page") Integer page, @ModelAttribute Item item,RedirectAttributes redirectAttributes, Model model) {
+	public String editItem(@RequestParam("file") MultipartFile file,@PathVariable Long cataId, @PathVariable Long id,@RequestParam("page") Integer page, @ModelAttribute Item item,RedirectAttributes redirectAttributes, Model model) {
 		if (!itemService.getItemById(id).isPresent())
 			throw new ResourceNotFoundException();
 		Optional<Catalog> catalog = catalogService.getCatalogById(cataId);
 		if (!catalog.isPresent())
 			throw new ResourceNotFoundException();
+		if(!file.getOriginalFilename().isEmpty()) {  
+			storageService.storeFile(file);
+		        item.setImage_path("http://localhost:8080/files/"+file.getOriginalFilename());
+		    }
 		item.setCatalog(catalog.get());
 		itemService.updateItem(item);
 		model.addAttribute("items", itemService.getAllItemsByCatalog(item.getCatalog(), page, pageSize));
