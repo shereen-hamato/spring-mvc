@@ -112,13 +112,15 @@ p {
 	<div class="row" th:fragment="pagination">
         <div class="col-md-2"></div>
         <div class="col-md-8">
+        <div th:if="${pages.totalPages > 1}">
             <nav aria-label="Pagination">
                 <ul class="pagination justify-content-center">
-                    <li class="page-item" th:each="pageNumber : ${#numbers.sequence(0, {pages.totalPages-1})}" >
-                        <a class="page-link" th:href="@{|/catalogs?page=${pageNumber}|}" th:text=${pageNumber}>1</a>
+                    <li class="page-item" th:each="pageNumber : ${#numbers.sequence(1, {pages.totalPages})}" >
+                        <a class="page-link" th:href="@{|/catalogs?page=${pageNumber-1}|}" th:text=${pageNumber}>1</a>
                     </li>
                 </ul>
             </nav>
+            </div>
         </div>
         <div class="col-md-2"></div>
     </div>
