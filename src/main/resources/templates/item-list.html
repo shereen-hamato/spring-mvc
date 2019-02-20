@@ -68,6 +68,8 @@ img {
 				New Item</button>
 		</a>
  	</div>
+ 		<div class="container-fluid">
+	<div class= "display-area">
 		<th:block th:each="item : ${items}" class="row">
 			<div class="col-sm-4 thumbnail">
 			<img th:src="@{${item.image_path}}" style="height:50% ">
@@ -77,11 +79,24 @@ img {
 				<p th:text="${item.description}"  ></p><p th:text="${item.price} "></p> <p th:text="${item.duration}"></p>
 				<a th:href="'items/edit/'+ @{ ${item.id}}+'?page='+@{ ${items.pageable.pageNumber}}"> Edit</a>
 				<a th:href="'items/delete/'+ @{ ${item.id}}+'?page='+@{ ${items.pageable.pageNumber}}">  Delete</a> 
-				<div>
-					<hr>
-				</div>
 			</div>
-		</th:block>
-	
+			</th:block>
+		
+	</div>
+	</div>
+
+	<div class="row" th:fragment="pagination">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <nav aria-label="Pagination">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" th:each="pageNumber : ${#numbers.sequence(0, {items.totalPages-1})}" >
+                        <a class="page-link" th:href="@{|/${catalog.id}/items?page=${pageNumber}|}" th:text=${pageNumber}>1</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
 </body>
 </html>
