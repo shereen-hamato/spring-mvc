@@ -7,10 +7,13 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,14 +37,14 @@ public class CatalogController {
 
 	@Autowired
 	private CatalogService cataService;
-	
+
 	@Autowired
 	private StorageService storageService;
-	
+
 	private final Integer pageSize = 12;
 
 	@GetMapping()
-	public String getCatalog(Model model, @RequestParam("page") Integer page ) {
+	public String getCatalog(Model model, @RequestParam("page") Integer page) {
 		model.addAttribute("catalogs", cataService.getAllCatalogs(page, pageSize).getContent());
 		model.addAttribute("pages", cataService.getAllCatalogs(page, pageSize));
 		return "catalog-list";
@@ -61,27 +64,30 @@ public class CatalogController {
 		model.addAttribute("catalog", cataService.getCatalogById(id));
 		return "catalog-view";
 	}
-	
+
 	@GetMapping("/new")
-	public String getAddCatalogForm() {
+	public String getAddCatalogForm(Catalog catalog) {
 		return "catalog-new";
 	}
 
 	@PostMapping("/new")
-	public String addCatalog(@RequestParam("file") MultipartFile file, @ModelAttribute Catalog catalog, Model model, RedirectAttributes redirectAttributes) throws IOException {
-		
-	
-        storageService.storeFile(file);
-        catalog.setImagePath("http://localhost:8080/files/"+file.getOriginalFilename());
+	public String addCatalog(@RequestParam("file") MultipartFile file, @ModelAttribute @Valid Catalog catalog,
+			BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) throws IOException {
+
+		if (bindingResult.hasErrors()) {
+			return "catalog-new";
+		}
+
+		storageService.storeFile(file);
+		catalog.setImagePath("http://localhost:8080/files/" + file.getOriginalFilename());
 		cataService.addCatalog(catalog);
 		redirectAttributes.addAttribute("page", 0);
 		model.addAttribute("catalogs", cataService.getAllCatalogs(0, pageSize));
 		return ("redirect:/catalogs");
 	}
 
-	
 	@GetMapping("/edit/{id}")
-	public String getEditCatalogForm(Model model,@RequestParam Integer page, @PathVariable Long id) {
+	public String getEditCatalogForm(Model model, @RequestParam Integer page, @PathVariable Long id) {
 		Optional<Catalog> cata = cataService.getCatalogById(id);
 		if (!cata.isPresent())
 			throw new ResourceNotFoundException();
@@ -90,13 +96,14 @@ public class CatalogController {
 		return "catalog-edit";
 	}
 
-	
 	@PostMapping("/edit")
-	public String editCatalog(@RequestParam("file") MultipartFile file,@ModelAttribute Catalog catalog,@RequestParam Integer page, Model model, RedirectAttributes redirectAttributes) {
-		if(!file.getOriginalFilename().isEmpty()) {  
-		storageService.storeFile(file);
-	        catalog.setImagePath("http://localhost:8080/files/"+file.getOriginalFilename());
-	    }cataService.updateCatalg(catalog);
+	public String editCatalog(@RequestParam("file") MultipartFile file, @ModelAttribute Catalog catalog,
+			@RequestParam Integer page, Model model, RedirectAttributes redirectAttributes) {
+		if (!file.getOriginalFilename().isEmpty()) {
+			storageService.storeFile(file);
+			catalog.setImagePath("http://localhost:8080/files/" + file.getOriginalFilename());
+		}
+		cataService.updateCatalg(catalog);
 		model.addAttribute("catalogs", cataService.getAllCatalogs(page, pageSize));
 		redirectAttributes.addAttribute("page", page);
 		return ("redirect:/catalogs");
@@ -112,9 +119,10 @@ public class CatalogController {
 		model.addAttribute("page", page);
 		return "catalog-delete";
 	}
-	
+
 	@PostMapping("/delete/{id}")
-	public String deleteCatalog(@RequestParam Integer page, @PathVariable Long id, Model model,  RedirectAttributes redirectAttributes) {
+	public String deleteCatalog(@RequestParam Integer page, @PathVariable Long id, Model model,
+			RedirectAttributes redirectAttributes) {
 		Optional<Catalog> cata = cataService.getCatalogById(id);
 		if (!cata.isPresent())
 			throw new ResourceNotFoundException();
@@ -124,7 +132,5 @@ public class CatalogController {
 		return ("redirect:/catalogs");
 
 	}
-	
-	
 
 }
