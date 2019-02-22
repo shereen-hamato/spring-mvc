@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 @Entity
 @Table(name = "ITEM_CATALOG")
 public class Catalog {
@@ -20,9 +22,12 @@ public class Catalog {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 	
+	@NotNull(message="Name cannot be null")
+	@Size(min=3 , max = 20 , message="Name must be between 3 to 20 character")
 	@Column(name="NAME")
 	private String name;
 	
+	@Size(min=3 , max = 225 , message="Description must be between 3 to 225 character")
 	@Column(name="DESCRIPTION")
 	private String description;
 	
