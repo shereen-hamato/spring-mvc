@@ -51,13 +51,16 @@
 		<div class="col-sm-6 ">
 			<form action="#" th:action="@{/catalogs/new}" th:object="${catalog}"
 				method="POST" enctype="multipart/form-data">
-				>
+				
 				<div class="form-group">
 					<label>Name</label> <input type="text" name="name"
-						class="form-control" required>
+						class="form-control" required th:field="*{name}">
+						<div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
 				</div>
 				<label>Description</label> <input type="text" name="description"
-					class="form-control" required /> <input type="file" name="file" id="imgInp" /><br />
+					class="form-control" required th:field="*{description}"/>
+					<div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div> 
+					<input type="file" name="file" id="imgInp" /><br />
 				<br /> <input type="submit" value="Submit">
 			</form>
 		</div>
