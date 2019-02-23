@@ -101,6 +101,7 @@ public class CatalogController {
 			BindingResult bindingResult, @RequestParam Integer page, Model model,
 			RedirectAttributes redirectAttributes) {
 		if (bindingResult.hasErrors()) {
+			model.addAttribute("page", page);
 			return "catalog-edit";
 		}
 		
