@@ -87,7 +87,7 @@ public class CatalogController {
 	}
 
 	@GetMapping("/edit/{id}")
-	public String getEditCatalogForm(Model model, @RequestParam Integer page, @PathVariable Long id) {
+	public String getEditCatalogForm(Model model, @RequestParam Integer page, @PathVariable Long id, Catalog catalog) {
 		Optional<Catalog> cata = cataService.getCatalogById(id);
 		if (!cata.isPresent())
 			throw new ResourceNotFoundException();
@@ -97,8 +97,13 @@ public class CatalogController {
 	}
 
 	@PostMapping("/edit")
-	public String editCatalog(@RequestParam("file") MultipartFile file, @ModelAttribute Catalog catalog,
-			@RequestParam Integer page, Model model, RedirectAttributes redirectAttributes) {
+	public String editCatalog(@RequestParam("file") MultipartFile file, @ModelAttribute @Valid Catalog catalog,
+			BindingResult bindingResult, @RequestParam Integer page, Model model,
+			RedirectAttributes redirectAttributes) {
+		if (bindingResult.hasErrors()) {
+			return "catalog-edit";
+		}
+		
 		if (!file.getOriginalFilename().isEmpty()) {
 			storageService.storeFile(file);
 			catalog.setImagePath("http://localhost:8080/files/" + file.getOriginalFilename());
