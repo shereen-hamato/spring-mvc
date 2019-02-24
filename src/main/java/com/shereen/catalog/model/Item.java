@@ -26,7 +26,7 @@ public class Item {
 	private String name;
 	
 	@NotNull(message="Item description should not be null!")
-	@Size(min=3, max=2, message="description length should be between 2 and 20 character!")
+	@Size(min=3, max=225, message="description length should be between 2 and 20 character!")
 	@Column(name= "DESCRIPTION")
 	private String description;
 	
