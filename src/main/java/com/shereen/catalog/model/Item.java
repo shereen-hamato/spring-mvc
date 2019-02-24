@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="ITEM")
@@ -18,9 +20,13 @@ public class Item {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 	
+	@NotNull(message="Item name should not be null!")
+	@Size(min=3, max=20, message="name length should be between 2 and 20 character!")
 	@Column(name="NAME")
 	private String name;
 	
+	@NotNull(message="Item description should not be null!")
+	@Size(min=3, max=2, message="description length should be between 2 and 20 character!")
 	@Column(name= "DESCRIPTION")
 	private String description;
 	
