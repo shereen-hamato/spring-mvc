@@ -3,10 +3,13 @@ package com.shereen.catalog.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -72,13 +75,16 @@ public class ItemController {
 	}
 
 	@GetMapping("{cataId}/items/new")
-	public String getItemForm(@PathVariable Long cataId, Model model) {
+	public String getItemForm(@PathVariable Long cataId, Model model, Item item) {
 		model.addAttribute("catalog", catalogService.getCatalogById(cataId));
 		return "item-new";
 	}
 
 	@PostMapping("{cataId}/items/new")
-	public String addItem(@ModelAttribute Item item, @PathVariable Long cataId, @RequestParam("file") MultipartFile file ,Model model) {
+	public String addItem(@Valid @ModelAttribute Item item, BindingResult bindingResult, @PathVariable Long cataId, @RequestParam("file") MultipartFile file ,Model model) {
+		if (bindingResult.hasErrors()) {
+			return "item-new";
+		}
 		Optional<Catalog> catalog = catalogService.getCatalogById(cataId);
 		if (!catalog.isPresent())
 			throw new ResourceNotFoundException();
