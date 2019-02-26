@@ -59,16 +59,17 @@
 				method="POST" enctype="multipart/form-data">
 				<div class="form-group">
 					<input type="hidden" th:field="*{id}" /> 
-					<input type="hidden" th:field="*{imagePath}" /> 
+					
 					<label>Name </label><input type="text"
 						name="name" class="form-control" required th:field="*{name}">
-						<div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+						<div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style= color:red;></div>
 				</div>
 				<label>Description</label> <input type="text" name="description"
 					class="form-control" th:field="*{description}" /> 
-					<div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div> 
+					<div th:if="${#fields.hasErrors('description')}" th:errors="*{description}" style= color:red></div> 
 					
 					<input type='file' name="file" id="imgInp" /> 
+					<input type="hidden" th:field="*{imagePath}" /> 
 					<input type="submit" value="Submit">
 			</form>
 		</div>
