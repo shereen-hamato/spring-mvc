@@ -1,6 +1,5 @@
 package com.shereen.catalog.controller;
 
-import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -113,7 +112,13 @@ public class ItemController {
 	}
 
 	@PostMapping("{cataId}/items/edit/{id}")
-	public String editItem(@RequestParam("file") MultipartFile file,@PathVariable Long cataId, @PathVariable Long id,@RequestParam("page") Integer page, @ModelAttribute Item item,RedirectAttributes redirectAttributes, Model model) {
+	public String editItem(@RequestParam("file") MultipartFile file,@PathVariable Long cataId, @PathVariable Long id,@RequestParam("page") Integer page, @Valid @ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+		
+		if(bindingResult.hasErrors()){
+			model.addAttribute("page",page);
+			return "item-edit";
+		}
+		
 		if (!itemService.getItemById(id).isPresent())
 			throw new ResourceNotFoundException();
 		Optional<Catalog> catalog = catalogService.getCatalogById(cataId);
