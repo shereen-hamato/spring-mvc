@@ -37,7 +37,7 @@ public class Item {
 	private String duration;
 	
 	@Column(name="IMAGE_PATH")
-	private String image_path;
+	private String image_path = "http://profilepicturesdp.com/wp-content/uploads/2018/06/blank-profile-picture-4.png";
 	
 	@ManyToOne
 	@JoinColumn(name="ITEM_CATALOG_ID", nullable=false)

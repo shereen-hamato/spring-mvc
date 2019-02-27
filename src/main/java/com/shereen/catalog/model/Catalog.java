@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.springframework.beans.factory.annotation.Value;
 @Entity
 @Table(name = "ITEM_CATALOG")
 public class Catalog {
@@ -32,7 +34,7 @@ public class Catalog {
 	private String description;
 	
 	@Column(name="IMAGE_PATH")
-	private String imagePath;
+	private String imagePath="http://profilepicturesdp.com/wp-content/uploads/2018/06/blank-profile-picture-4.png";
 	
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="ITEM_CATALOG_ID")
