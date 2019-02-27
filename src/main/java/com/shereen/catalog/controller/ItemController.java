@@ -35,10 +35,10 @@ public class ItemController {
 
 	@Autowired
 	CatalogService catalogService;
-	
+
 	@Autowired
 	StorageService storageService;
-	
+
 	private final Integer pageSize = 21;
 
 	@GetMapping("{cataId}/items")
@@ -80,15 +80,18 @@ public class ItemController {
 	}
 
 	@PostMapping("{cataId}/items/new")
-	public String addItem(@Valid @ModelAttribute Item item, BindingResult bindingResult, @PathVariable Long cataId, @RequestParam("file") MultipartFile file ,Model model) {
+	public String addItem(@Valid @ModelAttribute Item item, BindingResult bindingResult, @PathVariable Long cataId,
+			@RequestParam("file") MultipartFile file, Model model) {
 		if (bindingResult.hasErrors()) {
 			return "item-new";
 		}
 		Optional<Catalog> catalog = catalogService.getCatalogById(cataId);
 		if (!catalog.isPresent())
 			throw new ResourceNotFoundException();
-		storageService.storeFile(file);
-        item.setImage_path("http://localhost:8080/files/"+file.getOriginalFilename());
+		if (file.getOriginalFilename() == "") {
+			storageService.storeFile(file);
+			item.setImage_path("http://localhost:8080/files/" + file.getOriginalFilename());
+		}
 		item.setCatalog(catalog.get());
 		itemService.addItem(item);
 
@@ -97,37 +100,38 @@ public class ItemController {
 	}
 
 	@GetMapping("{cataId}/items/edit/{id}")
-	public String geteditItemForm( @PathVariable Long cataId, @PathVariable Long id, @RequestParam("page") Integer page, Model model) {
+	public String geteditItemForm(@PathVariable Long cataId, @PathVariable Long id, @RequestParam("page") Integer page,
+			Model model) {
 		Optional<Catalog> catalog = catalogService.getCatalogById(cataId);
 		if (!catalog.isPresent())
 			throw new ResourceNotFoundException();
-		Optional<Item>item = itemService.getItemByItemIdAndCatalog(id, catalog.get());
+		Optional<Item> item = itemService.getItemByItemIdAndCatalog(id, catalog.get());
 		if (!item.isPresent())
 			throw new ResourceNotFoundException();
-		
+
 		model.addAttribute("item", item.get());
-		model.addAttribute("page",page);
+		model.addAttribute("page", page);
 		return ("item-edit");
 
 	}
 
 	@PostMapping("{cataId}/items/edit/{id}")
-	public String editItem(@RequestParam("file") MultipartFile file,@PathVariable Long cataId, @PathVariable Long id,@RequestParam("page") Integer page, @Valid @ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
-		
-		if(bindingResult.hasErrors()){
-			model.addAttribute("page",page);
+	public String editItem(@RequestParam("file") MultipartFile file, @PathVariable Long cataId,
+			@RequestParam("page") Integer page, @Valid @ModelAttribute Item item, BindingResult bindingResult,
+			RedirectAttributes redirectAttributes, Model model) {
+
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("page", page);
 			return "item-edit";
 		}
-		
-		if (!itemService.getItemById(id).isPresent())
-			throw new ResourceNotFoundException();
+
 		Optional<Catalog> catalog = catalogService.getCatalogById(cataId);
 		if (!catalog.isPresent())
 			throw new ResourceNotFoundException();
-		if(!file.getOriginalFilename().isEmpty()) {  
+		if (!file.getOriginalFilename().isEmpty()) {
 			storageService.storeFile(file);
-		        item.setImage_path("http://localhost:8080/files/"+file.getOriginalFilename());
-		    }
+			item.setImage_path("http://localhost:8080/files/" + file.getOriginalFilename());
+		}
 		item.setCatalog(catalog.get());
 		itemService.updateItem(item);
 		model.addAttribute("items", itemService.getAllItemsByCatalog(item.getCatalog(), page, pageSize));
@@ -137,11 +141,12 @@ public class ItemController {
 	}
 
 	@GetMapping("{cataId}/items/delete/{id}")
-	public String getDeleteItemForm(@PathVariable Long cataId,@PathVariable Long id,  @RequestParam Integer page,Model model) {
+	public String getDeleteItemForm(@PathVariable Long cataId, @PathVariable Long id, @RequestParam Integer page,
+			Model model) {
 		Optional<Catalog> catalog = catalogService.getCatalogById(cataId);
 		if (!catalog.isPresent())
 			throw new ResourceNotFoundException();
-		Optional<Item>item = itemService.getItemByItemIdAndCatalog(id, catalog.get());
+		Optional<Item> item = itemService.getItemByItemIdAndCatalog(id, catalog.get());
 		if (!item.isPresent())
 			throw new ResourceNotFoundException();
 		model.addAttribute("item", item.get());
@@ -151,7 +156,8 @@ public class ItemController {
 	}
 
 	@PostMapping("{cataId}/items/delete/{id}")
-	public String deleteItem(@PathVariable Long cataId, @RequestParam("page") Integer page,@PathVariable Long id, Model model,  RedirectAttributes redirectAttributes) {
+	public String deleteItem(@PathVariable Long cataId, @RequestParam("page") Integer page, @PathVariable Long id,
+			Model model, RedirectAttributes redirectAttributes) {
 		if (!itemService.getItemById(id).isPresent())
 			throw new ResourceNotFoundException();
 		Optional<Catalog> catalog = catalogService.getCatalogById(cataId);

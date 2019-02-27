@@ -1,10 +1,6 @@
 package com.shereen.catalog.controller;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -18,8 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -50,7 +44,7 @@ public class CatalogController {
 		return "catalog-list";
 	}
 
-	@GetMapping("/JSON/page/{page}")
+	@GetMapping("/JSON/{page}")
 	@ResponseBody
 	public Page<Catalog> getAllCatalogJson(@PathVariable Integer page) {
 		return cataService.getAllCatalogs(page, pageSize);
@@ -73,13 +67,17 @@ public class CatalogController {
 	@PostMapping("/new")
 	public String addCatalog(@RequestParam("file") MultipartFile file, @ModelAttribute @Valid Catalog catalog,
 			BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) throws IOException {
-
+System.out.println("file name "+file.getOriginalFilename());
 		if (bindingResult.hasErrors()) {
 			return "catalog-new";
 		}
 
+		if (file.getOriginalFilename()!=""){
+			System.out.println("file name  "+file.getOriginalFilename());
 		storageService.storeFile(file);
 		catalog.setImagePath("http://localhost:8080/files/" + file.getOriginalFilename());
+		}
+		System.out.println(catalog.getImagePath());
 		cataService.addCatalog(catalog);
 		redirectAttributes.addAttribute("page", 0);
 		model.addAttribute("catalogs", cataService.getAllCatalogs(0, pageSize));
